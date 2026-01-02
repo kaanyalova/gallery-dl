@@ -329,6 +329,7 @@ class DownloadJob(Job):
         self.visited = parent.visited if parent else set()
         self._extractor_filter = None
         self._skipcnt = 0
+        self.output_paths = []
 
     def handle_url(self, url, kwdict):
         """Download the resource specified in 'url'"""
@@ -404,6 +405,7 @@ class DownloadJob(Job):
         # download succeeded
         pathfmt.finalize()
         self.out.success(pathfmt.path)
+        self.output_paths.append(pathfmt.path)
         self._skipcnt = 0
         if archive is not None and self._archive_write_file:
             archive.add(kwdict)
